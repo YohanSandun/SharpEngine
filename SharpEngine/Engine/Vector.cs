@@ -12,5 +12,13 @@
             Y = y;
             Z = z;
         }
+
+        public static Vector Zero
+        {
+            get
+            {
+                return new Vector(0, 0, 0);
+            }
+        }
     }
 }

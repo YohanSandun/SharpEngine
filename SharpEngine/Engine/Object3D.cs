@@ -12,6 +12,7 @@ namespace SharpEngine.Engine
         protected Core core;
         public Vector Position { get; set; }
         public Vector[] Vertices { get; set; }
+        protected Vector[] RenderPoints { get; set; }
         
         public Object3D(Core core, Vector position)
         {
@@ -20,5 +21,21 @@ namespace SharpEngine.Engine
         }
 
         public abstract void Render(Graphics graphics);
+        protected void PrepareForRender()
+        {
+            for (int i = 0; i < RenderPoints.Length; i++)
+                RenderPoints[i] = core.Translate(RenderPoints[i], Position);
+
+            for (int i = 0; i < RenderPoints.Length; i++)
+                RenderPoints[i] = core.ApplyPerspective(RenderPoints[i]);
+
+            for (int i = 0; i < RenderPoints.Length; i++)
+                RenderPoints[i] = core.CenterScreen(RenderPoints[i]);
+        }
+        public void Rotate(Vector rotation)
+        {
+            for (int i = 0; i < RenderPoints.Length; i++)
+                RenderPoints[i] = core.Rotate(Vertices[i], rotation);
+        }
     }
 }

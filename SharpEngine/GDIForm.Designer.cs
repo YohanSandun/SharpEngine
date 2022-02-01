@@ -28,7 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.tmrTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
+            // 
+            // tmrTimer
+            // 
+            this.tmrTimer.Enabled = true;
+            this.tmrTimer.Interval = 1;
+            this.tmrTimer.Tick += new System.EventHandler(this.tmrTimer_Tick);
             // 
             // GDIForm
             // 
@@ -45,5 +53,7 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer tmrTimer;
     }
 }
