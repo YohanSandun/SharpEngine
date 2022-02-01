@@ -21,7 +21,8 @@ namespace SharpEngine
         {
             if (cmbRenderer.SelectedIndex == 0)
             {
-
+                GDIForm form = new GDIForm();
+                form.ShowDialog();
             }
         }
 

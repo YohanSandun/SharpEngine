@@ -35,8 +35,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(881, 629);
+            this.DoubleBuffered = true;
             this.Name = "GDIForm";
             this.Text = "GDIForm";
+            this.Load += new System.EventHandler(this.GDIForm_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.GDIForm_Paint);
             this.ResumeLayout(false);
 
         }
