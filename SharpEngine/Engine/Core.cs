@@ -7,14 +7,20 @@ namespace SharpEngine.Engine
         // Field of view; default 45 degrees
         public int FOV { get; set; } = 45;
         public float FocalLength { get; set; }
-        public int Width { get; set; }
+
+        private int width;
+        public int Width { get { return width; } set { width = value; CalculateFL(); } }
         public int Height { get; set; }
 
         public Core(int width, int height)
         {
             Width = width;
             Height = height;
-            FocalLength = (float)(Width / 2.0 / Math.Tan(FOV / 2.0 * Math.PI / 180.0));
+        }
+
+        private void CalculateFL()
+        {
+            FocalLength = (float)(width / 2.0 / Math.Tan(FOV / 2.0 * Math.PI / 180.0));
         }
 
         public Vector Translate(Vector original, Vector translation)
@@ -45,7 +51,7 @@ namespace SharpEngine.Engine
         public Vector CenterScreen(Vector original)
         {
             return new Vector(
-                original.X + Width / 2,
+                original.X + width / 2,
                 original.Y + Height / 2,
                 original.Z
                 ); ;

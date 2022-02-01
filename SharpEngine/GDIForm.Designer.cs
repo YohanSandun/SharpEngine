@@ -48,6 +48,7 @@
             this.Text = "GDIForm";
             this.Load += new System.EventHandler(this.GDIForm_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GDIForm_Paint);
+            this.Resize += new System.EventHandler(this.GDIForm_Resize);
             this.ResumeLayout(false);
 
         }
