@@ -35,7 +35,7 @@ namespace SharpEngine.Objects
             //Rotate(Vector.Zero);
         }
 
-        public override void Render(Graphics graphics)
+        public void Render(Graphics graphics)
         {
             //PrepareForRender();
             //brush = 0;

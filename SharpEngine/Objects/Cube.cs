@@ -18,31 +18,26 @@ namespace SharpEngine.Objects
             Vertices[7] = new Vector(200, -200, 200);
 
             Triangles = new Triangle[12];
-            Triangles[0] = new Triangle(core, position, Vertices[0], Vertices[1], Vertices[3], Brushes.Red);
-            Triangles[1] = new Triangle(core, position, Vertices[0], Vertices[3], Vertices[2], Brushes.Red);
+            Triangles[0] = new Triangle(core, position, Vertices[0], Vertices[1], Vertices[3], Color.Red);
+            Triangles[1] = new Triangle(core, position, Vertices[0], Vertices[3], Vertices[2], Color.Red);
 
-            Triangles[2] = new Triangle(core, position, Vertices[7], Vertices[5], Vertices[4], Brushes.Green);
-            Triangles[3] = new Triangle(core, position, Vertices[7], Vertices[4], Vertices[6], Brushes.Green);
+            Triangles[2] = new Triangle(core, position, Vertices[7], Vertices[5], Vertices[4], Color.Green);
+            Triangles[3] = new Triangle(core, position, Vertices[7], Vertices[4], Vertices[6], Color.Green);
 
-            Triangles[4] = new Triangle(core, position, Vertices[5], Vertices[1], Vertices[0], Brushes.Blue);
-            Triangles[5] = new Triangle(core, position, Vertices[5], Vertices[0], Vertices[4], Brushes.Blue);
+            Triangles[4] = new Triangle(core, position, Vertices[5], Vertices[1], Vertices[0], Color.Blue);
+            Triangles[5] = new Triangle(core, position, Vertices[5], Vertices[0], Vertices[4], Color.Blue);
 
-            Triangles[6] = new Triangle(core, position, Vertices[2], Vertices[3], Vertices[7], Brushes.Pink);
-            Triangles[7] = new Triangle(core, position, Vertices[2], Vertices[7], Vertices[6], Brushes.Pink);
+            Triangles[6] = new Triangle(core, position, Vertices[2], Vertices[3], Vertices[7], Color.Pink);
+            Triangles[7] = new Triangle(core, position, Vertices[2], Vertices[7], Vertices[6], Color.Pink);
 
-            Triangles[8] = new Triangle(core, position, Vertices[4], Vertices[0], Vertices[2], Brushes.Teal);
-            Triangles[9] = new Triangle(core, position, Vertices[4], Vertices[2], Vertices[6], Brushes.Teal);
+            Triangles[8] = new Triangle(core, position, Vertices[4], Vertices[0], Vertices[2], Color.Teal);
+            Triangles[9] = new Triangle(core, position, Vertices[4], Vertices[2], Vertices[6], Color.Teal);
 
-            Triangles[10] = new Triangle(core, position, Vertices[3], Vertices[1], Vertices[5], Brushes.Gray);
-            Triangles[11] = new Triangle(core, position, Vertices[3], Vertices[5], Vertices[7], Brushes.Gray);
+            Triangles[10] = new Triangle(core, position, Vertices[3], Vertices[1], Vertices[5], Color.Gray);
+            Triangles[11] = new Triangle(core, position, Vertices[3], Vertices[5], Vertices[7], Color.Gray);
 
             Rotate(Vector.Zero);
         }
 
-        public override void Render(Graphics graphics)
-        {
-            foreach (Triangle triangle in Triangles)
-                triangle.Render(graphics);
-        }
     }
 }

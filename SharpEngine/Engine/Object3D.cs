@@ -21,8 +21,6 @@ namespace SharpEngine.Engine
             Position = position;
         }
 
-        public abstract void Render(Graphics graphics);
-
         public void Rotate(Vector rotation)
         {
             Rotation = rotation;

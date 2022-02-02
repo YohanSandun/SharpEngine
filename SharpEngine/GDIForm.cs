@@ -25,7 +25,7 @@ namespace SharpEngine
         private void GDIForm_Load(object sender, EventArgs e)
         {
             core = new Core(Width, Height);
-            core.Objects.Add(new Cube(core, Vector.Zero));
+            core.Objects.Add(new Cube(core, new Vector(0,0,600)));
         }
 
         private void GDIForm_Paint(object sender, PaintEventArgs e)
@@ -51,6 +51,7 @@ namespace SharpEngine
                 return;
             core.Height = this.Height;
             core.Width = this.Width;
+            core.Initialize();
         }
     }
 }

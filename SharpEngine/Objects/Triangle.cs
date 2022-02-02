@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using SharpEngine.Engine;
 
@@ -12,7 +13,7 @@ namespace SharpEngine.Objects
 
         protected Core core;
 
-        private Brush brush;
+        private Color color;
 
         public Vector Rotation = Vector.Zero;
 
@@ -20,11 +21,11 @@ namespace SharpEngine.Objects
         public float AverageZ { get; set; }
         public float NormalZ { get; set; }
 
-        public Triangle(Core core, Vector position, Vector v1, Vector v2, Vector v3, Brush brush)
+        public Triangle(Core core, Vector position, Vector v1, Vector v2, Vector v3, Color color)
         {
             Position = position;
             this.core = core;
-            this.brush = brush;
+            this.color = color;
 
             Vertices = new Vector[3];
             Vertices[0] = v1;
@@ -35,20 +36,9 @@ namespace SharpEngine.Objects
             WorldPoints = new Vector[3];
         }
 
-        public void Render(Graphics graphics)
+        public void Render(byte[] buffer)
         {
-            //for (int i = 0; i < RenderPoints.Length; i++)
-            //    RenderPoints[i] = core.Rotate(Vertices[i], Rotation);
-
-            //for (int i = 0; i < RenderPoints.Length; i++)
-            //    RenderPoints[i] = core.Translate(RenderPoints[i], Position);
-
-            //for (int i = 0; i < RenderPoints.Length; i++)
-            //    RenderPoints[i] = core.ApplyPerspective(RenderPoints[i]);
-
-            //for (int i = 0; i < RenderPoints.Length; i++)
-            //    RenderPoints[i] = core.CenterScreen(RenderPoints[i]);
-
+            /*
             GraphicsPath gp = new GraphicsPath();
             gp.AddLine(
                 RenderPoints[0].X, RenderPoints[0].Y,
@@ -65,6 +55,91 @@ namespace SharpEngine.Objects
                 graphics.FillPath(brush, gp);
             }
             catch { }
+            */
+            Vector temp;
+            if (RenderPoints[0].Y > RenderPoints[1].Y)
+            {
+                temp = RenderPoints[0];
+                RenderPoints[0] = RenderPoints[1];
+                RenderPoints[1] = temp;
+            }
+            if (RenderPoints[0].Y > RenderPoints[2].Y)
+            {
+                temp = RenderPoints[0];
+                RenderPoints[0] = RenderPoints[2];
+                RenderPoints[2] = temp;
+            }
+            if (RenderPoints[1].Y > RenderPoints[2].Y)
+            {
+                temp = RenderPoints[1];
+                RenderPoints[1] = RenderPoints[2];
+                RenderPoints[2] = temp;
+            }
+
+            if (RenderPoints[0].Y < RenderPoints[1].Y)
+            {
+                float slope1 = (RenderPoints[1].X - RenderPoints[0].X) / (RenderPoints[1].Y - RenderPoints[0].Y);
+                float slope2 = (RenderPoints[2].X - RenderPoints[0].X) / (RenderPoints[2].Y - RenderPoints[0].Y);
+                int lines = (int)(RenderPoints[1].Y - RenderPoints[0].Y);
+                for (int i = 0; i <= lines; i++)
+                {
+                    int x1 = (int)(RenderPoints[0].X + i * slope1);
+                    int x2 = (int)(RenderPoints[0].X + i * slope2);
+                    int y = Math.Abs((int)(RenderPoints[0].Y + i));
+                    //if (y < 0 || x1 < 0 || x2 < 0 || y > core.Height || x1 > core.Width || x2 > core.Width)
+                    //    continue;
+                    if (x1 > x2)
+                    {
+                        int t = x1;
+                        x1 = x2;
+                        x2 = t;
+                    }
+                    for (int j = x1; j <= x2; j++)
+                    {
+                        int pixel = (core.Width * y + j) * 4;
+                        if (pixel < buffer.Length)
+                        {
+                            buffer[pixel] = color.B;
+                            buffer[pixel + 1] = color.G;
+                            buffer[pixel + 2] = color.R;
+                            buffer[pixel + 3] = 255;
+                        }
+                    }
+                }
+            }
+            if (RenderPoints[1].Y < RenderPoints[2].Y)
+            {
+                float slope1 = (RenderPoints[2].X - RenderPoints[1].X) / (RenderPoints[2].Y - RenderPoints[1].Y);
+                float slope2 = (RenderPoints[2].X - RenderPoints[0].X) / (RenderPoints[2].Y - RenderPoints[0].Y);
+                float sx = RenderPoints[2].X - (RenderPoints[2].Y - RenderPoints[1].Y) * slope2;
+                int lines = (int)(RenderPoints[2].Y - RenderPoints[1].Y);
+                for (int i = 0; i <= lines; i++)
+                {
+                    int x1 = (int)(RenderPoints[1].X + i * slope1);
+                    int x2 = (int)(sx + i * slope2);
+                    int y = Math.Abs((int)(RenderPoints[1].Y + i));
+                    //if (y < 0 || x1 < 0 || x2 < 0 || y > core.Height || x1 > core.Width || x2 > core.Width)
+                    //    continue;
+
+                    if (x1 > x2)
+                    {
+                        int t = x1;
+                        x1 = x2;
+                        x2 = t;
+                    }
+                    for (int j = x1; j <= x2; j++)
+                    {
+                        int pixel = (core.Width * y + j) * 4;
+                        if (pixel < buffer.Length)
+                        {
+                            buffer[pixel] = color.B;
+                            buffer[pixel + 1] = color.G;
+                            buffer[pixel + 2] = color.R;
+                            buffer[pixel + 3] = 255;
+                        }
+                    }
+                }
+            }
         }
 
         public void CalculateWorldPosition(Vector position, Vector rotation)

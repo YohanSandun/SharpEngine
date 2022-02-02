@@ -8,28 +8,51 @@ namespace SharpEngine.Engine
     class Core
     {
         // Field of view; default 45 degrees
-        private int fov = 45;
 
         public Random Random { get; set; }
-        public int FOV { get { return fov; } set { fov = value; CalculateFL(); } }
+        public int FOV { get; set; } = 45;
         public float FocalLength { get; set; }
-
-        private int width;
-        public int Width { get { return width; } set { width = value; CalculateFL(); } }
+        public int Width { get; set; }
         public int Height { get; set; }
 
         public List<Object3D> Objects { get; set; } = new List<Object3D>();
 
+        public Bitmap Bmp { get; set; }
+        private int bufferSize;
+        private byte[] buffer;
+
         public Core(int width, int height)
         {
-            Width = width;
             Height = height;
+            Width = width;
             Random = new Random(100);
+            Initialize();
+        }
+
+        public void Initialize()
+        {
+            CalculateFL();
+
+            Bmp = new Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            Rectangle rect = new Rectangle(0, 0, Bmp.Width, Bmp.Height);
+            System.Drawing.Imaging.BitmapData bmpData =
+                Bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite,
+                Bmp.PixelFormat);
+
+            IntPtr ptr = bmpData.Scan0;
+            bufferSize = Math.Abs(bmpData.Stride) * Bmp.Height;
+
+            buffer = new byte[bufferSize];
+
+            System.Runtime.InteropServices.Marshal.Copy(ptr, buffer, 0, bufferSize);
+
+            Bmp.UnlockBits(bmpData);
         }
 
         private void CalculateFL()
         {
-            FocalLength = (float)(width / 2.0 / Math.Tan(FOV / 2.0 * Math.PI / 180.0));
+            FocalLength = (float)(Width / 2.0 / Math.Tan(FOV / 2.0 * Math.PI / 180.0));
         }
 
         public Vector Translate(Vector original, Vector translation)
@@ -60,7 +83,7 @@ namespace SharpEngine.Engine
         public Vector CenterScreen(Vector original)
         {
             return new Vector(
-                original.X + width / 2,
+                original.X + Width / 2,
                 original.Y + Height / 2,
                 original.Z
                 ); ;
@@ -80,12 +103,30 @@ namespace SharpEngine.Engine
 
             triangles.Sort((p, q) => q.AverageZ.CompareTo(p.AverageZ));
 
+            // Clear bitmap
+            for (int i = 0; i < buffer.Length; i += 4)
+            {
+                buffer[i] = 0;
+                buffer[i + 1] = 0;
+                buffer[i + 2] = 0;
+                buffer[i + 3] = 255;
+            }
+
+            Rectangle rect = new Rectangle(0, 0, Bmp.Width, Bmp.Height);
+            System.Drawing.Imaging.BitmapData bmpData =
+                Bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite,
+                Bmp.PixelFormat);
+
             foreach (Triangle triangle in triangles)
             {
                 triangle.CalculateRenderPoints();
                 if (triangle.NormalZ < 0)
-                    triangle.Render(graphics);
+                    triangle.Render(buffer);
             }
+            System.Runtime.InteropServices.Marshal.Copy(buffer, 0, bmpData.Scan0, bufferSize);
+
+            Bmp.UnlockBits(bmpData);
+            graphics.DrawImage(Bmp, 0, 0);
         }
     }
 }

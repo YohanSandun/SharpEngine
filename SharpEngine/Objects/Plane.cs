@@ -13,11 +13,12 @@ namespace SharpEngine.Objects
             Vertices[1] = new Vector(100, 100, 0);
             Vertices[2] = new Vector(-100, -100, 0);
             Vertices[3] = new Vector(100, -100, 0);
-        }
 
-        public override void Render(Graphics graphics)
-        {
-           
+            Triangles = new Triangle[2];
+            Triangles[0] = new Triangle(core, position, Vertices[0], Vertices[1], Vertices[3], Color.Red);
+            Triangles[1] = new Triangle(core, position, Vertices[0], Vertices[3], Vertices[2], Color.Red);
+            
+            Rotate(Vector.Zero);
         }
     }
 }

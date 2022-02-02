@@ -13,10 +13,5 @@ namespace SharpEngine.Objects
             Vertices[2] = new Vector(0, 50, 0);
             Vertices[3] = new Vector(0, 0, 50);
         }
-
-        public override void Render(Graphics graphics)
-        {
-            
-        }
     }
 }
