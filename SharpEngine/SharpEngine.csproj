@@ -65,6 +65,7 @@
     <Compile Include="Objects\Gizmo.cs" />
     <Compile Include="Objects\Plane.cs" />
     <Compile Include="Objects\IcoSphere.cs" />
+    <Compile Include="Objects\Triangle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GDIForm.resx">

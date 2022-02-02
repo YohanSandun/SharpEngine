@@ -8,7 +8,7 @@ namespace SharpEngine
     public partial class GDIForm : Form
     {
         private Core core;
-        private Object3D obj, gizmo;
+        //private Object3D obj;
         private float rotation;
 
         public GDIForm()
@@ -25,20 +25,17 @@ namespace SharpEngine
         private void GDIForm_Load(object sender, EventArgs e)
         {
             core = new Core(Width, Height);
-            obj = new Cube(core, Vector.Zero);
-            gizmo = new Gizmo(core, Vector.Zero);
+            core.Objects.Add(new Cube(core, Vector.Zero));
         }
 
         private void GDIForm_Paint(object sender, PaintEventArgs e)
         {
-            obj.Render(e.Graphics);
-            //gizmo.Render(e.Graphics);
+            core.Render(e.Graphics);
         }
 
         private void tmrTimer_Tick(object sender, EventArgs e)
         {
-            obj.Rotate(new Vector(rotation, rotation, rotation));
-            //gizmo.Rotate(Vector.Zero);
+            core.Objects[0].Rotate(new Vector(rotation, rotation, rotation));
             rotation += 0.02f;
             Invalidate();
         }

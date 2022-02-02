@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using SharpEngine.Objects;
 
 namespace SharpEngine.Engine
 {
@@ -6,6 +9,8 @@ namespace SharpEngine.Engine
     {
         // Field of view; default 45 degrees
         private int fov = 45;
+
+        public Random Random { get; set; }
         public int FOV { get { return fov; } set { fov = value; CalculateFL(); } }
         public float FocalLength { get; set; }
 
@@ -13,10 +18,13 @@ namespace SharpEngine.Engine
         public int Width { get { return width; } set { width = value; CalculateFL(); } }
         public int Height { get; set; }
 
+        public List<Object3D> Objects { get; set; } = new List<Object3D>();
+
         public Core(int width, int height)
         {
             Width = width;
             Height = height;
+            Random = new Random(100);
         }
 
         private void CalculateFL()
@@ -56,6 +64,28 @@ namespace SharpEngine.Engine
                 original.Y + Height / 2,
                 original.Z
                 ); ;
+        }
+
+        public void Render(Graphics graphics)
+        {
+            List<Triangle> triangles = new List<Triangle>();
+            foreach (Object3D obj in Objects)
+            {
+                foreach (Triangle triangle in obj.Triangles)
+                {
+                    triangle.CalculateWorldPosition(obj.Position, obj.Rotation);
+                    triangles.Add(triangle);
+                }
+            }
+
+            triangles.Sort((p, q) => q.AverageZ.CompareTo(p.AverageZ));
+
+            foreach (Triangle triangle in triangles)
+            {
+                triangle.CalculateRenderPoints();
+                if (triangle.NormalZ < 0)
+                    triangle.Render(graphics);
+            }
         }
     }
 }

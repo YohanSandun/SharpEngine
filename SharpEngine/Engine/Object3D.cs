@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharpEngine.Objects;
 
 namespace SharpEngine.Engine
 {
@@ -12,8 +13,8 @@ namespace SharpEngine.Engine
         protected Core core;
         public Vector Position { get; set; }
         public Vector[] Vertices { get; set; }
-        protected Vector[] RenderPoints { get; set; }
-        
+        public Triangle[] Triangles { get; set; }
+        public Vector Rotation { get; set; } = Vector.Zero;
         public Object3D(Core core, Vector position)
         {
             this.core = core;
@@ -21,21 +22,12 @@ namespace SharpEngine.Engine
         }
 
         public abstract void Render(Graphics graphics);
-        protected void PrepareForRender()
-        {
-            for (int i = 0; i < RenderPoints.Length; i++)
-                RenderPoints[i] = core.Translate(RenderPoints[i], Position);
 
-            for (int i = 0; i < RenderPoints.Length; i++)
-                RenderPoints[i] = core.ApplyPerspective(RenderPoints[i]);
-
-            for (int i = 0; i < RenderPoints.Length; i++)
-                RenderPoints[i] = core.CenterScreen(RenderPoints[i]);
-        }
         public void Rotate(Vector rotation)
         {
-            for (int i = 0; i < RenderPoints.Length; i++)
-                RenderPoints[i] = core.Rotate(Vertices[i], rotation);
+            Rotation = rotation;
+            foreach (Triangle triangle in Triangles)
+                triangle.Rotation = rotation;
         }
     }
 }

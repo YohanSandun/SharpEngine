@@ -31,13 +31,13 @@ namespace SharpEngine.Objects
             Vertices[10] = new Vector(-t, 0, -100);
             Vertices[11] = new Vector(-t, 0, 100);
 
-            RenderPoints = new Vector[12];
-            Rotate(Vector.Zero);
+            //RenderPoints = new Vector[12];
+            //Rotate(Vector.Zero);
         }
 
         public override void Render(Graphics graphics)
         {
-            PrepareForRender();
+            //PrepareForRender();
             //brush = 0;
             Triangle(graphics, 0, 11, 5);
             Triangle(graphics, 0, 5, 1);
@@ -64,11 +64,10 @@ namespace SharpEngine.Objects
             //Triangle(graphics, 9, 8, 1);
         }
 
-        //private Brush[] brushes = { Brushes.Black, Brushes.Red, Brushes.Green, Brushes.Blue, Brushes.Pink, Brushes.Teal, Brushes.Yellow };
-        //private int brush = 0;
+        
         private void Triangle(Graphics graphics, int i1, int i2, int i3)
         {
-            
+            /*
             graphics.DrawLine(Pens.Black, 
                 RenderPoints[i1].X, RenderPoints[i1].Y, 
                 RenderPoints[i2].X, RenderPoints[i2].Y);
@@ -80,7 +79,8 @@ namespace SharpEngine.Objects
             graphics.DrawLine(Pens.Black,
                 RenderPoints[i3].X, RenderPoints[i3].Y,
                 RenderPoints[i1].X, RenderPoints[i1].Y);
-            
+            */
+
             /*
             GraphicsPath gp = new GraphicsPath();
             gp.AddLine(

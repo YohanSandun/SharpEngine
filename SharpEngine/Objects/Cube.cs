@@ -17,28 +17,32 @@ namespace SharpEngine.Objects
             Vertices[6] = new Vector(-200, -200, 200);
             Vertices[7] = new Vector(200, -200, 200);
 
-            RenderPoints = new Vector[8];
+            Triangles = new Triangle[12];
+            Triangles[0] = new Triangle(core, position, Vertices[0], Vertices[1], Vertices[3], Brushes.Red);
+            Triangles[1] = new Triangle(core, position, Vertices[0], Vertices[3], Vertices[2], Brushes.Red);
+
+            Triangles[2] = new Triangle(core, position, Vertices[7], Vertices[5], Vertices[4], Brushes.Green);
+            Triangles[3] = new Triangle(core, position, Vertices[7], Vertices[4], Vertices[6], Brushes.Green);
+
+            Triangles[4] = new Triangle(core, position, Vertices[5], Vertices[1], Vertices[0], Brushes.Blue);
+            Triangles[5] = new Triangle(core, position, Vertices[5], Vertices[0], Vertices[4], Brushes.Blue);
+
+            Triangles[6] = new Triangle(core, position, Vertices[2], Vertices[3], Vertices[7], Brushes.Pink);
+            Triangles[7] = new Triangle(core, position, Vertices[2], Vertices[7], Vertices[6], Brushes.Pink);
+
+            Triangles[8] = new Triangle(core, position, Vertices[4], Vertices[0], Vertices[2], Brushes.Teal);
+            Triangles[9] = new Triangle(core, position, Vertices[4], Vertices[2], Vertices[6], Brushes.Teal);
+
+            Triangles[10] = new Triangle(core, position, Vertices[3], Vertices[1], Vertices[5], Brushes.Gray);
+            Triangles[11] = new Triangle(core, position, Vertices[3], Vertices[5], Vertices[7], Brushes.Gray);
+
             Rotate(Vector.Zero);
         }
 
         public override void Render(Graphics graphics)
         {
-            PrepareForRender();
-
-            graphics.DrawLine(Pens.Black, RenderPoints[0].X, RenderPoints[0].Y, RenderPoints[1].X, RenderPoints[1].Y);
-            graphics.DrawLine(Pens.Black, RenderPoints[0].X, RenderPoints[0].Y, RenderPoints[2].X, RenderPoints[2].Y);
-            graphics.DrawLine(Pens.Black, RenderPoints[1].X, RenderPoints[1].Y, RenderPoints[3].X, RenderPoints[3].Y);
-            graphics.DrawLine(Pens.Black, RenderPoints[2].X, RenderPoints[2].Y, RenderPoints[3].X, RenderPoints[3].Y);
-
-            graphics.DrawLine(Pens.Black, RenderPoints[4].X, RenderPoints[4].Y, RenderPoints[5].X, RenderPoints[5].Y);
-            graphics.DrawLine(Pens.Black, RenderPoints[4].X, RenderPoints[4].Y, RenderPoints[6].X, RenderPoints[6].Y);
-            graphics.DrawLine(Pens.Black, RenderPoints[5].X, RenderPoints[5].Y, RenderPoints[7].X, RenderPoints[7].Y);
-            graphics.DrawLine(Pens.Black, RenderPoints[6].X, RenderPoints[6].Y, RenderPoints[7].X, RenderPoints[7].Y);
-
-            graphics.DrawLine(Pens.Black, RenderPoints[0].X, RenderPoints[0].Y, RenderPoints[4].X, RenderPoints[4].Y);
-            graphics.DrawLine(Pens.Black, RenderPoints[1].X, RenderPoints[1].Y, RenderPoints[5].X, RenderPoints[5].Y);
-            graphics.DrawLine(Pens.Black, RenderPoints[2].X, RenderPoints[2].Y, RenderPoints[6].X, RenderPoints[6].Y);
-            graphics.DrawLine(Pens.Black, RenderPoints[3].X, RenderPoints[3].Y, RenderPoints[7].X, RenderPoints[7].Y);
+            foreach (Triangle triangle in Triangles)
+                triangle.Render(graphics);
         }
     }
 }
