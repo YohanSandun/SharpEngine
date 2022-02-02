@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +38,7 @@ namespace SharpEngine.Objects
         public override void Render(Graphics graphics)
         {
             PrepareForRender();
-            //graphics.DrawLine(Pens.Black, RenderPoints[0].X, RenderPoints[0].Y, RenderPoints[11].X, RenderPoints[11].Y);
+            //brush = 0;
             Triangle(graphics, 0, 11, 5);
             Triangle(graphics, 0, 5, 1);
             Triangle(graphics, 0, 1, 7);
@@ -56,15 +57,18 @@ namespace SharpEngine.Objects
             Triangle(graphics, 3, 6, 8);
             Triangle(graphics, 3, 8, 9);
 
-            Triangle(graphics, 4, 9, 5);
-            Triangle(graphics, 2, 4, 11);
-            Triangle(graphics, 6, 2, 10);
-            Triangle(graphics, 8, 6, 7);
-            Triangle(graphics, 9, 8, 1);
+            //Triangle(graphics, 4, 9, 5);
+            //Triangle(graphics, 2, 4, 11);
+            //Triangle(graphics, 6, 2, 10);
+            //Triangle(graphics, 8, 6, 7);
+            //Triangle(graphics, 9, 8, 1);
         }
 
+        //private Brush[] brushes = { Brushes.Black, Brushes.Red, Brushes.Green, Brushes.Blue, Brushes.Pink, Brushes.Teal, Brushes.Yellow };
+        //private int brush = 0;
         private void Triangle(Graphics graphics, int i1, int i2, int i3)
         {
+            
             graphics.DrawLine(Pens.Black, 
                 RenderPoints[i1].X, RenderPoints[i1].Y, 
                 RenderPoints[i2].X, RenderPoints[i2].Y);
@@ -76,6 +80,22 @@ namespace SharpEngine.Objects
             graphics.DrawLine(Pens.Black,
                 RenderPoints[i3].X, RenderPoints[i3].Y,
                 RenderPoints[i1].X, RenderPoints[i1].Y);
+            
+            /*
+            GraphicsPath gp = new GraphicsPath();
+            gp.AddLine(
+                RenderPoints[i1].X, RenderPoints[i1].Y,
+                RenderPoints[i2].X, RenderPoints[i2].Y);
+            gp.AddLine(
+                RenderPoints[i2].X, RenderPoints[i2].Y,
+                RenderPoints[i3].X, RenderPoints[i3].Y
+                );
+
+            gp.CloseFigure();
+
+            graphics.FillPath(brushes[brush++], gp);
+            brush = brush % brushes.Length;
+            */
         }
     }
 }

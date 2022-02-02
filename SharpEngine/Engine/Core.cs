@@ -5,7 +5,8 @@ namespace SharpEngine.Engine
     class Core
     {
         // Field of view; default 45 degrees
-        public int FOV { get; set; } = 45;
+        private int fov = 45;
+        public int FOV { get { return fov; } set { fov = value; CalculateFL(); } }
         public float FocalLength { get; set; }
 
         private int width;
