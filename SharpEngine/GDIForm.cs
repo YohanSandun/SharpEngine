@@ -19,7 +19,7 @@ namespace SharpEngine
         private void GDIForm_Load(object sender, EventArgs e)
         {
             core = new Core(Width, Height);
-            obj = new Cube(core, Vector.Zero);
+            obj = new IcoSphere(core, Vector.Zero);
             gizmo = new Gizmo(core, Vector.Zero);
         }
 
