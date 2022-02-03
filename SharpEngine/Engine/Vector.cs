@@ -8,6 +8,7 @@
 
         public float U { get; set; }
         public float V { get; set; }
+        public float W { get; set; }
 
         public Vector(float x, float y, float z)
         {
@@ -16,6 +17,7 @@
             Z = z;
             U = 0;
             V = 0;
+            W = 1;
         }
         public Vector(float x, float y, float z, float u, float v)
         {
@@ -24,7 +26,18 @@
             Z = z;
             U = u;
             V = v;
+            W = 1;
         }
+        public Vector(float x, float y, float z, float u, float v, float w)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+            U = u;
+            V = v;
+            W = w;
+        }
+
         public static Vector Zero
         {
             get

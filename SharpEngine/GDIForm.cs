@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using SharpEngine.Engine;
 using SharpEngine.Objects;
@@ -25,7 +26,7 @@ namespace SharpEngine
         private void GDIForm_Load(object sender, EventArgs e)
         {
             core = new Core(Width, Height);
-            core.Objects.Add(new Cube(core, new Vector(0,0,1000), new Texture(Resources.wood)));
+            core.Objects.Add(new Cube(core, new Vector(0, 0, 1000), new Texture(Resources.wood)));
         }
 
         private void GDIForm_Paint(object sender, PaintEventArgs e)
@@ -33,11 +34,18 @@ namespace SharpEngine
             core.Render(e.Graphics);
         }
 
+        private int fps = 0;
+        private long start = 0;
         private void tmrTimer_Tick(object sender, EventArgs e)
         {
-            core.Objects[0].Rotate(new Vector(rotation, rotation, 0));
-            rotation += 0.02f;
             Invalidate();
+            fps++;
+            if ((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - start >= 1000)
+            {
+                Text = fps + " fps";
+                start = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                fps = 0;
+            }
         }
 
         private void GDIForm_Scroll(object sender, ScrollEventArgs e)
@@ -52,6 +60,12 @@ namespace SharpEngine
             core.Height = this.Height;
             core.Width = this.Width;
             core.Initialize();
+        }
+
+        private void tmrAnimator_Tick(object sender, EventArgs e)
+        {
+            core.Objects[0].Rotate(new Vector(0, rotation, 0));
+            rotation += 0.02f;
         }
     }
 }

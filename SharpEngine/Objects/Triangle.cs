@@ -71,9 +71,11 @@ namespace SharpEngine.Objects
 
                     float us = RenderPoints[0].U + (y - RenderPoints[0].Y) / (RenderPoints[1].Y - RenderPoints[0].Y) * (RenderPoints[1].U - RenderPoints[0].U);
                     float vs = RenderPoints[0].V + (y - RenderPoints[0].Y) / (RenderPoints[1].Y - RenderPoints[0].Y) * (RenderPoints[1].V - RenderPoints[0].V);
+                    float ws = RenderPoints[0].W + (y - RenderPoints[0].Y) / (RenderPoints[1].Y - RenderPoints[0].Y) * (RenderPoints[1].W - RenderPoints[0].W);
 
                     float ue = RenderPoints[0].U + (y - RenderPoints[0].Y) / (RenderPoints[2].Y - RenderPoints[0].Y) * (RenderPoints[2].U - RenderPoints[0].U);
                     float ve = RenderPoints[0].V + (y - RenderPoints[0].Y) / (RenderPoints[2].Y - RenderPoints[0].Y) * (RenderPoints[2].V - RenderPoints[0].V);
+                    float we = RenderPoints[0].W + (y - RenderPoints[0].Y) / (RenderPoints[2].Y - RenderPoints[0].Y) * (RenderPoints[2].W - RenderPoints[0].W);
 
                     if (x1 > x2)
                     {
@@ -86,6 +88,9 @@ namespace SharpEngine.Objects
                         t1 = vs;
                         vs = ve;
                         ve = t1;
+                        t1 = ws;
+                        ws = we;
+                        we = t1;
                     }
                     if (x2 > x1)
                     {
@@ -93,16 +98,20 @@ namespace SharpEngine.Objects
                         float ustep = (ue - us) / (x2 - x1) * texture.Width;
                         float v = vs * texture.Height;
                         float vstep = (ve - vs) / (x2 - x1) * texture.Height;
+                        float w = ws;
+                        float wstep = (we - ws) / (x2 - x1);
 
                         for (int j = 0; j <= x2-x1; j++)
                         {
                             int x = x1 + j;
                             u += ustep;
                             v += vstep;
+                            w += wstep;
+
                             int pixel = (core.Width * y + x) * 4;
                             if (pixel < buffer.Length)
                             {
-                                (byte, byte, byte, byte) clr = texture.GetPixel((long)u, (long)v);
+                                (byte, byte, byte, byte) clr = texture.GetPixel((long)(u/w), (long)(v/w));
                                 buffer[pixel] = clr.Item4;
                                 buffer[pixel + 1] = clr.Item3;
                                 buffer[pixel + 2] = clr.Item2;
@@ -126,9 +135,11 @@ namespace SharpEngine.Objects
 
                     float us = RenderPoints[1].U + (y - RenderPoints[1].Y) / (RenderPoints[2].Y - RenderPoints[1].Y) * (RenderPoints[2].U - RenderPoints[1].U);
                     float vs = RenderPoints[1].V + (y - RenderPoints[1].Y) / (RenderPoints[2].Y - RenderPoints[1].Y) * (RenderPoints[2].V - RenderPoints[1].V);
+                    float ws = RenderPoints[1].W + (y - RenderPoints[1].Y) / (RenderPoints[2].Y - RenderPoints[1].Y) * (RenderPoints[2].W - RenderPoints[1].W);
 
                     float ue = RenderPoints[0].U + (y - RenderPoints[0].Y) / (RenderPoints[2].Y - RenderPoints[0].Y) * (RenderPoints[2].U - RenderPoints[0].U);
                     float ve = RenderPoints[0].V + (y - RenderPoints[0].Y) / (RenderPoints[2].Y - RenderPoints[0].Y) * (RenderPoints[2].V - RenderPoints[0].V);
+                    float we = RenderPoints[0].W + (y - RenderPoints[0].Y) / (RenderPoints[2].Y - RenderPoints[0].Y) * (RenderPoints[2].W - RenderPoints[0].W);
 
                     if (x1 > x2)
                     {
@@ -141,6 +152,9 @@ namespace SharpEngine.Objects
                         t1 = vs;
                         vs = ve;
                         ve = t1;
+                        t1 = ws;
+                        ws = we;
+                        we = t1;
                     }
                     if (x2 > x1)
                     {
@@ -148,15 +162,19 @@ namespace SharpEngine.Objects
                         float ustep = (ue - us) / (x2 - x1) * texture.Width;
                         float v = vs * texture.Height;
                         float vstep = (ve - vs) / (x2 - x1) * texture.Height;
+                        float w = ws;
+                        float wstep = (we - ws) / (x2 - x1);
+
                         for (int j = 0; j <= x2 - x1; j++)
                         {
                             int x = x1 + j;
                             u += ustep;
                             v += vstep;
+                            w += wstep;
                             int pixel = (core.Width * y + x) * 4;
                             if (pixel < buffer.Length)
                             {
-                                (byte, byte, byte, byte) clr = texture.GetPixel((long)u, (long)v);
+                                (byte, byte, byte, byte) clr = texture.GetPixel((long)(u/w), (long)(v/w));
                                 buffer[pixel] = clr.Item4;
                                 buffer[pixel + 1] = clr.Item3;
                                 buffer[pixel + 2] = clr.Item2;

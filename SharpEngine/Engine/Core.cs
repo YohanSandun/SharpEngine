@@ -62,7 +62,8 @@ namespace SharpEngine.Engine
                 original.Y + translation.Y,
                 original.Z + translation.Z,
                 original.U,
-                original.V
+                original.V,
+                original.W
                 );
         }
 
@@ -73,7 +74,9 @@ namespace SharpEngine.Engine
                  (float)(original.X * (Math.Sin(rotation.Z) * Math.Cos(rotation.Y)) + original.Y * (Math.Sin(rotation.Z) * Math.Sin(rotation.Y) * Math.Sin(rotation.X) + Math.Cos(rotation.Z) * Math.Cos(rotation.X)) + original.Z * (Math.Sin(rotation.Z) * Math.Sin(rotation.Y) * Math.Cos(rotation.X) - Math.Cos(rotation.Z) * Math.Sin(rotation.X))),
                  (float)(original.X * (-Math.Sin(rotation.Y)) + original.Y * (Math.Cos(rotation.Y) * Math.Sin(rotation.X)) + original.Z * (Math.Cos(rotation.Y) * Math.Cos(rotation.X))),
                  original.U,
-                 original.V);
+                 original.V,
+                 original.W
+                 );
         }
 
         public Vector ApplyPerspective(Vector original)
@@ -82,8 +85,10 @@ namespace SharpEngine.Engine
                 original.X * FocalLength / (FocalLength + original.Z),
                 original.Y * FocalLength / (FocalLength + original.Z),
                 original.Z,
-                original.U,
-                original.V);
+                original.U * FocalLength / (FocalLength + original.Z),
+                original.V * FocalLength / (FocalLength + original.Z),
+                original.W * FocalLength / (FocalLength + original.Z)
+                );
         }
 
         public Vector CenterScreen(Vector original)
@@ -93,7 +98,8 @@ namespace SharpEngine.Engine
                 original.Y + Height / 2,
                 original.Z,
                 original.U,
-                original.V
+                original.V,
+                original.W
                 ); ;
         }
 
@@ -120,21 +126,24 @@ namespace SharpEngine.Engine
                 buffer[i + 3] = 255;
             }
 
-            Rectangle rect = new Rectangle(0, 0, Bmp.Width, Bmp.Height);
-            System.Drawing.Imaging.BitmapData bmpData =
-                Bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite,
-                Bmp.PixelFormat);
-
             foreach (Triangle triangle in triangles)
             {
                 triangle.CalculateRenderPoints();
                 if (triangle.NormalZ < 0)
                     triangle.Render(buffer);
             }
+
+            Rectangle rect = new Rectangle(0, 0, Bmp.Width, Bmp.Height);
+            System.Drawing.Imaging.BitmapData bmpData =
+                Bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite,
+                Bmp.PixelFormat);
+
             System.Runtime.InteropServices.Marshal.Copy(buffer, 0, bmpData.Scan0, bufferSize);
 
             Bmp.UnlockBits(bmpData);
+
             graphics.DrawImage(Bmp, 0, 0);
+
         }
     }
 }

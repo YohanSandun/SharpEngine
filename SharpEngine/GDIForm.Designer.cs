@@ -29,20 +29,27 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.tmrTimer = new System.Windows.Forms.Timer(this.components);
+            this.tmrRenderer = new System.Windows.Forms.Timer(this.components);
+            this.tmrAnimator = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // tmrTimer
+            // tmrRenderer
             // 
-            this.tmrTimer.Enabled = true;
-            this.tmrTimer.Interval = 1;
-            this.tmrTimer.Tick += new System.EventHandler(this.tmrTimer_Tick);
+            this.tmrRenderer.Enabled = true;
+            this.tmrRenderer.Interval = 1;
+            this.tmrRenderer.Tick += new System.EventHandler(this.tmrTimer_Tick);
+            // 
+            // tmrAnimator
+            // 
+            this.tmrAnimator.Enabled = true;
+            this.tmrAnimator.Interval = 1;
+            this.tmrAnimator.Tick += new System.EventHandler(this.tmrAnimator_Tick);
             // 
             // GDIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(881, 629);
+            this.ClientSize = new System.Drawing.Size(494, 465);
             this.DoubleBuffered = true;
             this.Name = "GDIForm";
             this.Text = "GDIForm";
@@ -56,6 +63,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Timer tmrTimer;
+        private System.Windows.Forms.Timer tmrRenderer;
+        private System.Windows.Forms.Timer tmrAnimator;
     }
 }
