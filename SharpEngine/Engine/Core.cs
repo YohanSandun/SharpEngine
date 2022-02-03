@@ -60,7 +60,9 @@ namespace SharpEngine.Engine
             return new Vector(
                 original.X + translation.X,
                 original.Y + translation.Y,
-                original.Z + translation.Z
+                original.Z + translation.Z,
+                original.U,
+                original.V
                 );
         }
 
@@ -69,7 +71,9 @@ namespace SharpEngine.Engine
             return new Vector(
                  (float)(original.X * (Math.Cos(rotation.Z) * Math.Cos(rotation.Y)) + original.Y * (Math.Cos(rotation.Z) * Math.Sin(rotation.Y) * Math.Sin(rotation.X) - Math.Sin(rotation.Z) * Math.Cos(rotation.X)) + original.Z * (Math.Cos(rotation.Z) * Math.Sin(rotation.Y) * Math.Cos(rotation.X) + Math.Sin(rotation.Z) * Math.Sin(rotation.X))),
                  (float)(original.X * (Math.Sin(rotation.Z) * Math.Cos(rotation.Y)) + original.Y * (Math.Sin(rotation.Z) * Math.Sin(rotation.Y) * Math.Sin(rotation.X) + Math.Cos(rotation.Z) * Math.Cos(rotation.X)) + original.Z * (Math.Sin(rotation.Z) * Math.Sin(rotation.Y) * Math.Cos(rotation.X) - Math.Cos(rotation.Z) * Math.Sin(rotation.X))),
-                 (float)(original.X * (-Math.Sin(rotation.Y)) + original.Y * (Math.Cos(rotation.Y) * Math.Sin(rotation.X)) + original.Z * (Math.Cos(rotation.Y) * Math.Cos(rotation.X))));
+                 (float)(original.X * (-Math.Sin(rotation.Y)) + original.Y * (Math.Cos(rotation.Y) * Math.Sin(rotation.X)) + original.Z * (Math.Cos(rotation.Y) * Math.Cos(rotation.X))),
+                 original.U,
+                 original.V);
         }
 
         public Vector ApplyPerspective(Vector original)
@@ -77,7 +81,9 @@ namespace SharpEngine.Engine
             return new Vector(
                 original.X * FocalLength / (FocalLength + original.Z),
                 original.Y * FocalLength / (FocalLength + original.Z),
-                original.Z);
+                original.Z,
+                original.U,
+                original.V);
         }
 
         public Vector CenterScreen(Vector original)
@@ -85,7 +91,9 @@ namespace SharpEngine.Engine
             return new Vector(
                 original.X + Width / 2,
                 original.Y + Height / 2,
-                original.Z
+                original.Z,
+                original.U,
+                original.V
                 ); ;
         }
 

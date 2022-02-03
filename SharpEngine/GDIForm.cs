@@ -25,7 +25,7 @@ namespace SharpEngine
         private void GDIForm_Load(object sender, EventArgs e)
         {
             core = new Core(Width, Height);
-            core.Objects.Add(new Cube(core, new Vector(0,0,600)));
+            core.Objects.Add(new Cube(core, new Vector(0,0,1000), new Texture(Resources.wood)));
         }
 
         private void GDIForm_Paint(object sender, PaintEventArgs e)
@@ -35,7 +35,7 @@ namespace SharpEngine
 
         private void tmrTimer_Tick(object sender, EventArgs e)
         {
-            core.Objects[0].Rotate(new Vector(rotation, rotation, rotation));
+            core.Objects[0].Rotate(new Vector(rotation, rotation, 0));
             rotation += 0.02f;
             Invalidate();
         }

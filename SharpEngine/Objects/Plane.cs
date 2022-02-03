@@ -15,8 +15,8 @@ namespace SharpEngine.Objects
             Vertices[3] = new Vector(100, -100, 0);
 
             Triangles = new Triangle[2];
-            Triangles[0] = new Triangle(core, position, Vertices[0], Vertices[1], Vertices[3], Color.Red);
-            Triangles[1] = new Triangle(core, position, Vertices[0], Vertices[3], Vertices[2], Color.Red);
+            Triangles[0] = new Triangle(core, position, Vertices[0], Vertices[1], Vertices[3], null);
+            Triangles[1] = new Triangle(core, position, Vertices[0], Vertices[3], Vertices[2], null);
             
             Rotate(Vector.Zero);
         }
