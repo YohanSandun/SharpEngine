@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using SharpEngine.Engine;
 using SharpEngine.Objects;
+using SharpEngine.ImportExport;
 
 namespace SharpEngine
 {
@@ -26,7 +27,9 @@ namespace SharpEngine
         private void GDIForm_Load(object sender, EventArgs e)
         {
             core = new Core(Width, Height);
-            core.Objects.Add(new Cube(core, new Vector(0, 0, 1000), new Texture(Resources.wood)));
+            core.Objects.Add(Wavefront.ImportFromFile(core, new Vector(0, 0, 500), new Texture("e:\\car.png"), "e:\\test.obj"));
+            core.Objects[0].Scale(new Vector(100, 100, 100));
+            //core.Objects.Add(new Cube(core, new Vector(0, 0, 1000), new Texture(Resources.wood)));
         }
 
         private void GDIForm_Paint(object sender, PaintEventArgs e)

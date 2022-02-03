@@ -46,9 +46,21 @@
             }
         }
 
+        public static Vector One
+        {
+            get
+            {
+                return new Vector(1, 1, 1);
+            }
+        }
+
         public Vector UV(float u, float v)
         {
             return new Vector(X, Y, Z, u, v);
+        }
+        public Vector UV((float,float) uv)
+        {
+            return new Vector(X, Y, Z, uv.Item1, uv.Item2);
         }
     }
 }

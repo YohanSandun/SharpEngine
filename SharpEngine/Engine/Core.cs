@@ -55,6 +55,18 @@ namespace SharpEngine.Engine
             FocalLength = (float)(Width / 2.0 / Math.Tan(FOV / 2.0 * Math.PI / 180.0));
         }
 
+        public Vector Scale(Vector original, Vector scale)
+        {
+            return new Vector(
+                original.X * scale.X,
+                original.Y * scale.Y,
+                original.Z * scale.Z,
+                original.U,
+                original.V,
+                original.W
+                );
+        }
+
         public Vector Translate(Vector original, Vector translation)
         {
             return new Vector(
@@ -110,7 +122,7 @@ namespace SharpEngine.Engine
             {
                 foreach (Triangle triangle in obj.Triangles)
                 {
-                    triangle.CalculateWorldPosition(obj.Position, obj.Rotation);
+                    triangle.CalculateWorldPosition(obj.Position);
                     triangles.Add(triangle);
                 }
             }
@@ -143,7 +155,7 @@ namespace SharpEngine.Engine
             Bmp.UnlockBits(bmpData);
 
             graphics.DrawImage(Bmp, 0, 0);
-
         }
+
     }
 }

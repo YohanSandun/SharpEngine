@@ -14,6 +14,7 @@ namespace SharpEngine.Objects
         protected Core core;
 
         public Vector Rotation = Vector.Zero;
+        public Vector ScaleVector = Vector.One;
 
         public Vector[] WorldPoints { get; set; }
         public float AverageZ { get; set; }
@@ -186,10 +187,13 @@ namespace SharpEngine.Objects
             }
         }
 
-        public void CalculateWorldPosition(Vector position, Vector rotation)
+        public void CalculateWorldPosition(Vector position)
         {
             for (int i = 0; i < WorldPoints.Length; i++)
-                WorldPoints[i] = core.Rotate(Vertices[i], rotation);
+                WorldPoints[i] = core.Scale(Vertices[i], ScaleVector);
+
+            for (int i = 0; i < WorldPoints.Length; i++)
+                WorldPoints[i] = core.Rotate(WorldPoints[i], Rotation);
 
             for (int i = 0; i < WorldPoints.Length; i++)
                 WorldPoints[i] = core.Translate(WorldPoints[i], position);

@@ -8,24 +8,31 @@ using SharpEngine.Objects;
 
 namespace SharpEngine.Engine
 {
-    abstract class Object3D
+    class Object3D
     {
         protected Core core;
         public Vector Position { get; set; }
         public Vector[] Vertices { get; set; }
         public Triangle[] Triangles { get; set; }
         public Vector Rotation { get; set; } = Vector.Zero;
+        public Vector ScaleVector { get; set; } = Vector.One;
         public Object3D(Core core, Vector position)
         {
             this.core = core;
             Position = position;
         }
-
         public void Rotate(Vector rotation)
         {
             Rotation = rotation;
             foreach (Triangle triangle in Triangles)
                 triangle.Rotation = rotation;
+        }
+
+        public void Scale(Vector scale)
+        {
+            ScaleVector = scale;
+            foreach (Triangle triangle in Triangles)
+                triangle.ScaleVector = scale;
         }
     }
 }
